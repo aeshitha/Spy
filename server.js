@@ -3,12 +3,23 @@ const http = require('http');
 const path = require('path');
 const socketIo = require('socket.io');
 const { v4: uuidv4 } = require('uuid');
+const cors = require('cors');
 
 const app = express();
 const server = http.createServer(app);
-const io = socketIo(server);
+const io = socketIo(server, {
+    cors: {
+        origin: "*",
+        methods: ["GET", "POST"]
+    }
+});
 
 const port = process.env.PORT || 3000;
+
+app.use(cors());
+
+// The rest of your server code...
+
 
 let gameRooms = {};
 
