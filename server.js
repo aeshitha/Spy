@@ -1,14 +1,19 @@
 const express = require('express');
 const http = require('http');
+const path = require('path');
 const socketIo = require('socket.io');
+const { v4: uuidv4 } = require('uuid');
 
 const app = express();
 const server = http.createServer(app);
 const io = socketIo(server);
 
+const port = process.env.PORT || 3000;
+
 let gameRooms = {};
 
 const disneyMovies = [
+    "Snow White and the Seven Dwarfs (G)",
     "Snow White and the Seven Dwarfs (G)",
     "1940: Pinocchio (G)",
     "1940: Fantasia (G)",
@@ -153,12 +158,7 @@ const disneyMovies = [
     "1980: Midnight Madness (PG)",
     "1980: The Last Flight of Noah’s Ark (G)",
     "1980: Herbie Goes Bananas (G)",
-    "1981: The Devil and Max Devlin (PG)",
-    "1981: Amy (G)",
-    "1981: The Fox and the Hound (G)",
-    "1981: Condorman (PG)",
-    "1981: The Watcher in the Woods (PG)",
-    "1982: Night Crossing (PG)",
+    "1981: The Devil and Max Devlin (PG)"
     // Add more movies to make it up to 500
 ];
 
@@ -171,7 +171,13 @@ function generateRoomCode() {
     return roomCode;
 }
 
-app.use(express.static('public'));
+// Serve static files from the "public" directory
+app.use(express.static(path.join(__dirname, 'public')));
+
+// Default route
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
 
 io.on('connection', (socket) => {
     console.log('New client connected');
@@ -249,6 +255,7 @@ io.on('connection', (socket) => {
     });
 });
 
-server.listen(3000, () => {
-    console.log('Server is running on port 3000');
+// Start the server
+server.listen(port, () => {
+    console.log(`Server is running on port ${port}`);
 });
