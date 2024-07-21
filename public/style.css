@@ -1,0 +1,22 @@
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+#front-page, #game-room {
+    text-align: center;
+}
+
+#room-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#role-display {
+    margin: 20px 0;
+}
